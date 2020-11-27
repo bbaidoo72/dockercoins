@@ -104,7 +104,7 @@ jobs:                                                                          #
           done
                                                                                #
         docker swarm init                                                      ;
-        sed -i s/worker/manager/ $compose                                      ;
+        sed -i /node.role/s/worker/manager/ $compose                                      ;
         docker stack deploy -c $compose $project                               ;
                                                                                #
         sleep 30                                                                               
