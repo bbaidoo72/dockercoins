@@ -32,7 +32,7 @@ jobs:                                                                          #
           do
             docker network create $app
           done
-        docker run --network redis --name redis -d redis:latest
+        docker run --network redis --name redis -v redis:/data -d redis:latest
         for app in hasher rng
           do
             docker run --network $app --name $app -d $GITHUB_REPOSITORY:$release-testing-$app
