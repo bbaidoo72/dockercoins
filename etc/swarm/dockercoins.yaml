@@ -21,6 +21,9 @@ services:
         limits:
           cpus: "0.5"
           memory: 1g
+        reservations:
+          cpus: "0.5"
+          memory: 1g
     image: academiaonline/dockercoins:latest-hasher
     networks:
     - hasher
@@ -33,6 +36,9 @@ services:
       replicas: 1
       resources:
         limits:
+          cpus: "0.5"
+          memory: 1g
+        reservations:
           cpus: "0.5"
           memory: 1g
     image: redis:latest
@@ -50,6 +56,9 @@ services:
         limits:
           cpus: "0.5"
           memory: 1g
+        reservations:
+          cpus: "0.5"
+          memory: 1g
     image: academiaonline/dockercoins:latest-rng
     networks:
     - rng
@@ -62,6 +71,9 @@ services:
       replicas: 1
       resources:
         limits:
+          cpus: "0.5"
+          memory: 1g
+        reservations:
           cpus: "0.5"
           memory: 1g
     image: academiaonline/dockercoins:latest-webui
@@ -78,6 +90,9 @@ services:
       replicas: 1
       resources:
         limits:
+          cpus: "0.5"
+          memory: 1g
+        reservations:
           cpus: "0.5"
           memory: 1g
     image: academiaonline/dockercoins:latest-worker
