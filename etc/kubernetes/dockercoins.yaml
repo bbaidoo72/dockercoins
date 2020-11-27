@@ -282,20 +282,6 @@ spec:
       storage: 1Gi
   storageClassName: manual
 ---
-apiVersion: route.openshift.io/v1
-kind: Route
-metadata:
-  name: dockercoins
-spec:
-  to:
-    kind: Service
-    name: webui
-  port:
-    targetPort: 8080
-  tls:
-    termination: edge
-    insecureEdgeTerminationPolicy: Redirect
----
 apiVersion: v1
 kind: Service
 metadata:
