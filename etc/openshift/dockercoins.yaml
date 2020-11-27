@@ -1,0 +1,347 @@
+################################################################################
+#      Copyright (C) 2020        Sebastian Francisco Colomar Bauza             #
+#      SPDX-License-Identifier:  GPL-2.0-only                                  #
+################################################################################
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: rng
+spec:
+  selector:
+    matchLabels:
+      app: rng
+  template:
+    metadata:
+      labels:
+        app: rng
+    spec:
+      containers:
+      -
+        image: academiaonline/dockercoins:latest-rng
+        name: rng
+        ports:
+        -
+          containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1G
+          requests:
+            cpu: 500m
+            memory: 1G          
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hasher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hasher
+  template:
+    metadata:
+      labels:
+        app: hasher
+    spec:
+      containers:
+      -
+        image: academiaonline/dockercoins:latest-hasher
+        name: hasher
+        ports:
+        -
+          containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1G
+          requests:
+            cpu: 500m
+            memory: 1G          
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      -
+        image: redis:latest
+        name: redis
+        ports:
+        -
+          containerPort: 6379
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1G
+          requests:
+            cpu: 500m
+            memory: 1G          
+        volumeMounts:
+        -
+          mountPath: /data
+          name: redis
+      volumes:
+        - 
+          name: redis
+          persistentVolumeClaim:
+            claimName: redis
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webui
+  template:
+    metadata:
+      labels:
+        app: webui
+    spec:
+      containers:
+      -
+        image: academiaonline/dockercoins:latest-webui
+        name: webui
+        ports:
+        -
+          containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1G
+          requests:
+            cpu: 500m
+            memory: 1G          
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      containers:
+      -
+        image: academiaonline/dockercoins:latest-worker
+        name: worker
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1G
+          requests:
+            cpu: 500m
+            memory: 1G          
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: hasher
+spec:
+  ingress:
+  -
+    from:
+    -
+      podSelector:
+        matchLabels:
+          app: worker
+    ports:
+    -
+      port: 8080
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      app: hasher
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: redis
+spec:
+  ingress:
+  -
+    from:
+    -
+      podSelector:
+        matchLabels:
+          app: webui
+    -
+      podSelector:
+        matchLabels:
+          app: worker
+    ports:
+    -
+      port: 6379
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      app: redis
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: rng
+spec:
+  podSelector:
+    matchLabels:
+      app: rng
+  ingress:
+  -
+    from:
+    -
+      podSelector:
+        matchLabels:
+          app: worker
+    ports:
+    -
+      port: 8080
+      protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: webui
+spec:
+  podSelector:
+    matchLabels:
+      app: webui
+  ingress:
+  -
+    ports:
+    -
+      port: 8080
+      protocol: TCP      
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: worker
+spec:
+  podSelector:
+    matchLabels:
+      app: worker
+  policyTypes:
+  - Ingress
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/redis/data"
+  type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: manual
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: dockercoins
+spec:
+  to:
+    kind: Service
+    name: webui
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hasher
+spec:
+  ports:
+  -
+    port: 8080
+    protocol: TCP
+  selector:
+    app: hasher
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  ports:
+  -
+    port: 6379
+    protocol: TCP
+  selector:
+    app: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rng
+spec:
+  ports:
+  -
+    port: 8080
+    protocol: TCP
+  selector:
+    app: rng
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webui
+spec:
+  ports:
+  -
+    port: 8080
+    protocol: TCP
+  selector:
+    app: webui
+---
