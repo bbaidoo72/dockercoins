@@ -268,8 +268,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/opt/redis/data"
-  type: DirectoryOrCreate
+    path: "/tmp/data"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
