@@ -269,7 +269,6 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: "/opt/redis/data"
-  type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
