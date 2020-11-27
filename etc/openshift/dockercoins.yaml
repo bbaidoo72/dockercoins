@@ -308,6 +308,7 @@ spec:
     protocol: TCP
   selector:
     app: hasher
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
@@ -320,6 +321,7 @@ spec:
     protocol: TCP
   selector:
     app: redis
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
@@ -332,6 +334,7 @@ spec:
     protocol: TCP
   selector:
     app: rng
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
@@ -344,4 +347,5 @@ spec:
     protocol: TCP
   selector:
     app: webui
+  type: ClusterIP
 ---
