@@ -118,7 +118,24 @@ jobs:                                                                          #
             &&                                                                 \
             break                                                              ;
           done                                                                 ;
-                                                                               #
+
+        for app in hasher redis webui worker
+          do
+            while true                                                             ;
+              do                                                                   \
+                sleep 10                                                           ;
+                docker service ls | grep "$app.*replicated.*\([0-9]\)/\1" && break        ;
+              done                                                                 ;
+          done
+        for app in rng
+          do
+            while true                                                             ;
+              do                                                                   \
+                sleep 10                                                           ;
+                docker service ls | grep "$app.*global.*\([0-9]\)/\1" && break        ;
+              done                                                                 ;
+          done
+
   kubernetes:                                                                  #
     env:                                                                       #
       mode: kubernetes                                                         #
@@ -189,10 +206,11 @@ jobs:                                                                          #
                 kubectl get ds | grep "$app.*1.*1.*1.*1.*1" && break        ;
               done                                                                 ;
           done
-          curl localhost:30000
           
         while true                                                             ;
           do                                                                   \
             sleep 10                                                           ;
-            kubectl get svc | grep ".*NodePort.*8080:30000/TCP" && break ;
-          done                                                                 ;
+            kubectl get svc | grep "webui.*NodePort.*8080:30000/TCP" && break ;
+          done                                                                 
+        kubectl get svc
+        curl localhost:30000/index.html
