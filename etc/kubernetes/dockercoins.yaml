@@ -20,6 +20,10 @@ spec:
       -
         image: academiaonline/dockercoins:latest-rng
         name: rng
+        ports:
+        -
+          containerPort: 8080
+          protocol: TCP
         resources:
           limits:
             cpu: 500m
@@ -46,6 +50,10 @@ spec:
       -
         image: academiaonline/dockercoins:latest-hasher
         name: hasher
+        ports:
+        -
+          containerPort: 8080
+          protocol: TCP
         resources:
           limits:
             cpu: 500m
@@ -72,6 +80,10 @@ spec:
       -
         image: redis:latest
         name: redis
+        ports:
+        -
+          containerPort: 6379
+          protocol: TCP
         resources:
           limits:
             cpu: 500m
@@ -79,6 +91,15 @@ spec:
           requests:
             cpu: 500m
             memory: 1G          
+        volumeMounts:
+        -
+          mountPath: /data
+          name: redis
+      volumes:
+        - 
+          name: redis
+          persistentVolumeClaim:
+            claimName: redis
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -98,6 +119,10 @@ spec:
       -
         image: academiaonline/dockercoins:latest-webui
         name: webui
+        ports:
+        -
+          containerPort: 8080
+          protocol: TCP
         resources:
           limits:
             cpu: 500m
@@ -206,6 +231,72 @@ spec:
       port: 8080
       protocol: TCP
 ---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: webui
+spec:
+  podSelector:
+    matchLabels:
+      app: webui
+  ingress:
+  -
+    ports:
+    -
+      port: 8080
+      protocol: TCP      
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: worker
+spec:
+  podSelector:
+    matchLabels:
+      app: worker
+  policyTypes:
+  - Ingress
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/redis/data"
+  type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: manual
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: dockercoins
+spec:
+  to:
+    kind: Service
+    name: webui
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -217,6 +308,7 @@ spec:
     protocol: TCP
   selector:
     app: hasher
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
@@ -229,6 +321,7 @@ spec:
     protocol: TCP
   selector:
     app: redis
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
@@ -241,6 +334,7 @@ spec:
     protocol: TCP
   selector:
     app: rng
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
