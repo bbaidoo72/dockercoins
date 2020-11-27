@@ -173,16 +173,19 @@ jobs:                                                                          #
         sed -i /imagePullPolicy/s/Always/Never/ $compose                       ;
         kubectl apply -f $compose                                              ;
                                                                                #
+                                                                               while true
+                                                                               do
                                                                                sleep 100
                                                                                kubectl get deploy
                                                                                kubectl get ds
+                                                                               kubectl get rs
+                                                                               kubectl get po
                                                                                kubectl describe deploy
                                                                                kubectl describe ds
-                                                                               sleep 100
-                                                                               kubectl get deploy
-                                                                               kubectl get ds
-                                                                               kubectl describe deploy
-                                                                               kubectl describe ds
+                                                                               kubectl describe rs
+                                                                               kubectl describe po
+                                                                               done
+                                                                               
         for app in hasher redis webui worker
           do
             while true                                                             ;
