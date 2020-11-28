@@ -117,7 +117,7 @@ jobs:                                                                          #
         sed -i /node.role/s/worker/manager/ $compose                           ;
         docker stack deploy -c $compose $project                               ;
                                                                                #
-        for app in hasher redis webui                                    ;
+        for app in hasher redis webui worker                                   ;
           do                                                                   \
             while true                                                         ;
               do                                                               \
@@ -127,8 +127,7 @@ jobs:                                                                          #
                 grep "$app.*replicated.*\([0-9]\)/\1" && break                 ;
               done                                                             ;
           done                                                                 ;
-        docker stack ps dockercoins --no-trunc
-        docker service ls
+                                                                               #
         for app in rng                                                         ;
           do                                                                   \
             while true                                                         ;
@@ -137,7 +136,7 @@ jobs:                                                                          #
                 docker service ls | grep "$app.*global.*\([0-9]\)/\1" && break ;
               done                                                             ;
           done                                                                 ;
-
+                                                                               #
   kubernetes:                                                                  #
     env:                                                                       #
       mode: kubernetes                                                         #
@@ -202,7 +201,7 @@ jobs:                                                                          #
           done                                                                 ;
                                                                                #
         for app in rng                                                         ;
-          do                                                                   ;
+          do                                                                   \
             while true                                                         ;
               do                                                               \
                 sleep 10                                                       ;
