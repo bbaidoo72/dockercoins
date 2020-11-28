@@ -210,7 +210,7 @@ jobs:                                                                          #
           done                                                                 ;
                                                                                #
         for app in hasher rng                                                  ;
-          do                                                                   ;
+          do                                                                   \
             while true                                                         ;
               do                                                               \
                 sleep 10                                                       ;
