@@ -19,10 +19,10 @@ services:
       replicas: 1
       resources:
         limits:
-          cpus: "0.5"
+          cpus: "0.4"
           memory: 1g
         reservations:
-          cpus: "0.5"
+          cpus: "0.4"
           memory: 1g
     image: academiaonline/dockercoins:latest-hasher
     networks:
@@ -36,10 +36,10 @@ services:
       replicas: 1
       resources:
         limits:
-          cpus: "0.5"
+          cpus: "0.4"
           memory: 1g
         reservations:
-          cpus: "0.5"
+          cpus: "0.4"
           memory: 1g
     image: redis:latest
     networks:
@@ -54,10 +54,10 @@ services:
         - node.role == worker
       resources:
         limits:
-          cpus: "0.5"
+          cpus: "0.4"
           memory: 1g
         reservations:
-          cpus: "0.5"
+          cpus: "0.4"
           memory: 1g
     image: academiaonline/dockercoins:latest-rng
     networks:
@@ -71,10 +71,10 @@ services:
       replicas: 1
       resources:
         limits:
-          cpus: "0.5"
+          cpus: "0.4"
           memory: 1g
         reservations:
-          cpus: "0.5"
+          cpus: "0.4"
           memory: 1g
     image: academiaonline/dockercoins:latest-webui
     networks:
@@ -90,10 +90,10 @@ services:
       replicas: 1
       resources:
         limits:
-          cpus: "0.5"
+          cpus: "0.4"
           memory: 1g
         reservations:
-          cpus: "0.5"
+          cpus: "0.4"
           memory: 1g
     image: academiaonline/dockercoins:latest-worker
     networks:
