@@ -24,7 +24,7 @@ services:
         reservations:
           cpus: "0.4"
           memory: 1g
-    image: academiaonline/dockercoins:latest-hasher
+    image: academiaonline/dockercoins:1.0-hasher
     networks:
     - hasher
   redis:
@@ -59,7 +59,7 @@ services:
         reservations:
           cpus: "0.4"
           memory: 1g
-    image: academiaonline/dockercoins:latest-rng
+    image: academiaonline/dockercoins:1.0-rng
     networks:
     - rng
   webui:
@@ -76,7 +76,7 @@ services:
         reservations:
           cpus: "0.4"
           memory: 1g
-    image: academiaonline/dockercoins:latest-webui
+    image: academiaonline/dockercoins:1.0-webui
     networks:
     - redis
     ports:
@@ -95,7 +95,7 @@ services:
         reservations:
           cpus: "0.4"
           memory: 1g
-    image: academiaonline/dockercoins:latest-worker
+    image: academiaonline/dockercoins:1.0-worker
     networks:
     - hasher
     - redis
