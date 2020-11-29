@@ -125,10 +125,10 @@ spec:
           protocol: TCP
         resources:
           limits:
-#            cpu: 900m
+            cpu: 100m
             memory: 1G
           requests:
-            #cpu: 300m
+            cpu: 100m
             memory: 1G          
 ---
 apiVersion: apps/v1
