@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       -
-        image: academiaonline/dockercoins:latest-rng
+        image: academiaonline/dockercoins:1.0-rng
         name: rng
         ports:
         -
@@ -48,7 +48,7 @@ spec:
     spec:
       containers:
       -
-        image: academiaonline/dockercoins:latest-hasher
+        image: academiaonline/dockercoins:1.0-hasher
         name: hasher
         ports:
         -
@@ -117,7 +117,7 @@ spec:
     spec:
       containers:
       -
-        image: academiaonline/dockercoins:latest-webui
+        image: academiaonline/dockercoins:1.0-webui
         name: webui
         ports:
         -
@@ -147,7 +147,7 @@ spec:
     spec:
       containers:
       -
-        image: academiaonline/dockercoins:latest-worker
+        image: academiaonline/dockercoins:1.0-worker
         name: worker
         resources:
           limits:
