@@ -262,13 +262,12 @@ kind: PersistentVolume
 metadata:
   name: redis
 spec:
-  storageClassName: manual
   capacity:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/tmp/data"
+    path: /redis
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -280,7 +279,6 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: manual
 ---
 apiVersion: v1
 kind: Service
