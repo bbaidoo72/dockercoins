@@ -19,6 +19,7 @@ spec:
       containers:
       - name: rng
         image: academiaonline/dockercoins:latest-rng
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         resources:
@@ -46,6 +47,7 @@ spec:
       containers:
       - name: hasher
         image: academiaonline/dockercoins:latest-hasher
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         resources:
@@ -73,6 +75,7 @@ spec:
       containers:
       - name: redis
         image: redis:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 6379
         resources:
@@ -107,6 +110,7 @@ spec:
       containers:
       - name: webui
         image: academiaonline/dockercoins:latest-webui
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         resources:
@@ -134,6 +138,7 @@ spec:
       containers:
       - name: worker
         image: academiaonline/dockercoins:latest-worker
+        imagePullPolicy: Always
         resources:
           limits:
             cpu: 100m
