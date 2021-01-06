@@ -27,10 +27,10 @@ spec:
         resources:
           limits:
             cpu: 100m
-            memory: 1G
+            memory: 100M
           requests:
             cpu: 100m
-            memory: 1G          
+            memory: 100M
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -57,10 +57,10 @@ spec:
         resources:
           limits:
             cpu: 100m
-            memory: 1G
+            memory: 100M
           requests:
             cpu: 100m
-            memory: 1G          
+            memory: 100M
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -87,10 +87,10 @@ spec:
         resources:
           limits:
             cpu: 100m
-            memory: 1G
+            memory: 100M
           requests:
             cpu: 100m
-            memory: 1G          
+            memory: 100M
         volumeMounts:
         - 
           mountPath: /data
@@ -152,10 +152,10 @@ spec:
         resources:
           limits:
             cpu: 100m
-            memory: 1G
+            memory: 100M
           requests:
             cpu: 100m
-            memory: 1G          
+            memory: 100M
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
