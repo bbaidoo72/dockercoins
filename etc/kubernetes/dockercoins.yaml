@@ -17,13 +17,10 @@ spec:
         app: rng
     spec:
       containers:
-      -
+      - name: rng
         image: academiaonline/dockercoins:latest-rng
-        name: rng
         ports:
-        -
-          containerPort: 8080
-          protocol: TCP
+        - containerPort: 8080
         resources:
           limits:
             cpu: 100m
@@ -47,13 +44,10 @@ spec:
         app: hasher
     spec:
       containers:
-      - 
+      - name: hasher
         image: academiaonline/dockercoins:latest-hasher
-        name: hasher
         ports:
-        - 
-          containerPort: 8080
-          protocol: TCP
+        - containerPort: 8080
         resources:
           limits:
             cpu: 100m
@@ -77,13 +71,10 @@ spec:
         app: redis
     spec:
       containers:
-      - 
+      - name: redis
         image: redis:latest
-        name: redis
         ports:
-        - 
-          containerPort: 6379
-          protocol: TCP
+        - containerPort: 6379
         resources:
           limits:
             cpu: 100m
@@ -92,12 +83,10 @@ spec:
             cpu: 100m
             memory: 100M
         volumeMounts:
-        - 
+        - name: redis
           mountPath: /data
-          name: redis
       volumes:
-        - 
-          name: redis
+        - name: redis
           persistentVolumeClaim:
             claimName: redis
 ---
@@ -116,13 +105,10 @@ spec:
         app: webui
     spec:
       containers:
-      - 
+      - name: webui
         image: academiaonline/dockercoins:latest-webui
-        name: webui
         ports:
-        - 
-          containerPort: 8080
-          protocol: TCP
+        - containerPort: 8080
         resources:
           limits:
             cpu: 100m
@@ -146,9 +132,8 @@ spec:
         app: worker
     spec:
       containers:
-      - 
+      - name: worker
         image: academiaonline/dockercoins:latest-worker
-        name: worker
         resources:
           limits:
             cpu: 100m
@@ -173,16 +158,12 @@ metadata:
   name: hasher
 spec:
   ingress:
-  - 
-    from:
-    - 
-      podSelector:
+  - from:
+    - podSelector:
         matchLabels:
           app: worker
     ports:
-    - 
-      port: 8080
-      protocol: TCP
+    - port: 8080
   podSelector:
     matchLabels:
       app: hasher
@@ -193,20 +174,15 @@ metadata:
   name: redis
 spec:
   ingress:
-  - 
-    from:
-    - 
-      podSelector:
+  - from:
+    - podSelector:
         matchLabels:
           app: webui
-    - 
-      podSelector:
+    - podSelector:
         matchLabels:
           app: worker
     ports:
-    - 
-      port: 6379
-      protocol: TCP
+    - port: 6379
   podSelector:
     matchLabels:
       app: redis
@@ -220,16 +196,12 @@ spec:
     matchLabels:
       app: rng
   ingress:
-  - 
-    from:
-    - 
-      podSelector:
+  - from:
+    - podSelector:
         matchLabels:
           app: worker
     ports:
-    - 
-      port: 8080
-      protocol: TCP
+    - port: 8080
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -240,11 +212,8 @@ spec:
     matchLabels:
       app: webui
   ingress:
-  - 
-    ports:
-    - 
-      port: 8080
-      protocol: TCP      
+  - ports:
+    - port: 8080
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -286,9 +255,7 @@ metadata:
   name: hasher
 spec:
   ports:
-  - 
-    port: 8080
-    protocol: TCP
+  - port: 8080
   selector:
     app: hasher
   type: ClusterIP
@@ -299,9 +266,7 @@ metadata:
   name: redis
 spec:
   ports:
-  - 
-    port: 6379
-    protocol: TCP
+  - port: 6379
   selector:
     app: redis
   type: ClusterIP
@@ -312,9 +277,7 @@ metadata:
   name: rng
 spec:
   ports:
-  - 
-    port: 8080
-    protocol: TCP
+  - port: 8080
   selector:
     app: rng
   type: ClusterIP
@@ -325,10 +288,8 @@ metadata:
   name: webui
 spec:
   ports:
-  - 
+  - port: 8080
     nodePort: 30000
-    port: 8080
-    protocol: TCP
   selector:
     app: webui
   type: NodePort
