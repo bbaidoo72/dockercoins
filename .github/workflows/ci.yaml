@@ -245,9 +245,17 @@ jobs:                                                                          #
         while true                                                             ;
           do                                                                   \
             sleep 10                                                           ;
-            kubectl logs deploy/webui
-            curl localhost:30000/index.html                                    \
+            kubectl logs deploy/webui                                          \
+            |                                                                  \
+            grep "WEBUI running on port 8080" && break                         ;
+          done                                                                 ;
+                                                                               #
+        while true                                                             ;
+          do                                                                   \
+            sleep 10                                                           ;
+            kubectl exec deploy/webui -- curl localhost:8080/index.html
+            kubectl exec deploy/webui -- curl localhost:8080/index.html                                     \
             |                                                                  \
             grep "DockerCoin Miner WebUI" && break                             ;
           done                                                                 ;
-                                                                               #
+################################################################################
