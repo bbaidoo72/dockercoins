@@ -253,8 +253,7 @@ jobs:                                                                          #
         while true                                                             ;
           do                                                                   \
             sleep 10                                                           ;
-            kubectl exec deploy/webui -- curl localhost:8080/index.html
-            kubectl exec deploy/webui -- curl localhost:8080/index.html                                     \
+            kubectl exec deploy/webui -- curl localhost:8080/index.html        \
             |                                                                  \
             grep "DockerCoin Miner WebUI" && break                             ;
           done                                                                 ;
