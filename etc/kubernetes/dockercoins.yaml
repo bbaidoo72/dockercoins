@@ -293,8 +293,7 @@ metadata:
 spec:
   ports:
   - port: 8080
-    nodePort: 30000
   selector:
     app: webui
-  type: NodePort
+  type: ClusterIP
 ---
