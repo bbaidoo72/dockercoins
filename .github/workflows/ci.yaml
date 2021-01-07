@@ -238,13 +238,14 @@ jobs:                                                                          #
                 sleep 10                                                       ;
                 kubectl get svc                                                \
                 |                                                              \
-                grep "$app.*NodePort.*8080:30000/TCP" && break                 ;
+                grep "$app.*ClusterIP.*8080/TCP" && break                      ;
               done                                                             ;
           done                                                                 ;
                                                                                #
         while true                                                             ;
           do                                                                   \
             sleep 10                                                           ;
+            kubectl logs deploy/webui
             curl localhost:30000/index.html                                    \
             |                                                                  \
             grep "DockerCoin Miner WebUI" && break                             ;
