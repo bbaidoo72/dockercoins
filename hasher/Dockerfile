@@ -18,11 +18,6 @@ ARG                                                                            \
   dir=/app
 ARG                                                                            \
   src=hasher.rb
-WORKDIR                                                                        \
-  ${dir}
-COPY                                                                           \
-  ${src}                                                                       \
-  ruby.rb
 RUN                                                                            \
   apk add --update build-base                                                  \
   &&                                                                           \
@@ -30,6 +25,11 @@ RUN                                                                            \
   &&                                                                           \
   gem install thin                                                             \
                                                                                ;
+WORKDIR                                                                        \
+  ${dir}
+COPY                                                                           \
+  ${src}                                                                       \
+  ruby.rb
 ################################################################################
 ENTRYPOINT                                                                     \
   ["ruby"]
