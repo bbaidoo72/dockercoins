@@ -109,7 +109,6 @@ spec:
       containers:
       - name: redis
         image: redis:latest
-        imagePullPolicy: Always
         livenessProbe:
           tcpSocket:
             port: 6379
