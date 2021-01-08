@@ -1,8 +1,42 @@
-FROM node:4-slim
-WORKDIR /app
-RUN npm install express redis
-COPY files/ files/
-COPY webui.js .
-ENTRYPOINT ["node"]
-CMD ["webui.js"]
-EXPOSE 8080
+################################################################################
+#      Copyright (C) 2020        Sebastian Francisco Colomar Bauza             #
+#      SPDX-License-Identifier:  GPL-2.0-only                                  #
+################################################################################
+ARG                                                                            \
+  digest="@sha256:7d8fcef4cc84dafe2f4fbcbcd58ee704d452f1e49bc3393c9452992713808dbc"
+ARG                                                                            \
+  image="node"
+ARG                                                                            \
+  tag="15.5.1-alpine3.11"
+################################################################################
+FROM                                                                           \
+  ${image}:${tag}${digest}                                                     \
+  AS                                                                           \
+  production
+################################################################################
+ARG                                                                            \
+  dir=/app
+ARG                                                                            \
+  src=webui.js
+RUN                                                                            \
+  npm install express                                                          \
+  &&                                                                           \
+  npm install redis                                                            \
+                                                                               ;
+WORKDIR                                                                        \
+  ${dir}
+COPY                                                                           \
+  files/                                                                       \
+  files/
+COPY                                                                           \
+  ${src}                                                                       \
+  script
+################################################################################
+ENTRYPOINT                                                                     \
+  ["node"]
+CMD                                                                            \
+  ["script"]
+################################################################################
+EXPOSE                                                                         \
+  8080
+################################################################################
