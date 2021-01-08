@@ -3,11 +3,11 @@
 #      SPDX-License-Identifier:  GPL-2.0-only                                  #
 ################################################################################
 ARG                                                                            \
-  digest="@sha256:7d8fcef4cc84dafe2f4fbcbcd58ee704d452f1e49bc3393c9452992713808dbc"
+  digest="@sha256:b5ae41b735cad519ae32cd6eeafbc1191c2d8e9056baf421a17f1c666c2a3753"
 ARG                                                                            \
   image="node"
 ARG                                                                            \
-  tag="15.5.1-alpine3.11"
+  tag="4-slim"
 ################################################################################
 FROM                                                                           \
   ${image}:${tag}${digest}                                                     \
