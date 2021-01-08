@@ -1,9 +1,41 @@
-FROM ruby:alpine
-WORKDIR /app
-RUN apk add --update build-base
-RUN gem install sinatra
-RUN gem install thin
-COPY hasher.rb .
-ENTRYPOINT ["ruby"]
-CMD ["hasher.rb"]
-EXPOSE 8080
+################################################################################
+#      Copyright (C) 2020        Sebastian Francisco Colomar Bauza             #
+#      SPDX-License-Identifier:  GPL-2.0-only                                  #
+################################################################################
+ARG                                                                            \
+  digest="@sha256:df559e1eb3c1b4884a28caa43ce163425a7f81cf9b7372d33883cf0fea67303f"
+ARG                                                                            \
+  image="ruby"
+ARG                                                                            \
+  tag="3.0.0-alpine3.12"
+################################################################################
+FROM                                                                           \
+  ${image}:${tag}${digest}                                                     \
+  AS                                                                           \
+  production
+################################################################################
+ARG                                                                            \
+  dir=/app
+ARG                                                                            \
+  src=hasher.rb
+WORKDIR                                                                        \
+  ${dir}
+COPY                                                                           \
+  ${src}                                                                       \
+  ruby.rb
+RUN                                                                            \
+  apk add --update build-base                                                  \
+  &&                                                                           \
+  gem install sinatra                                                          \
+  &&                                                                           \
+  gem install thin                                                             \
+                                                                               ;
+################################################################################
+ENTRYPOINT                                                                     \
+  ["ruby"]
+CMD                                                                            \
+  ["ruby.rb"]
+################################################################################
+EXPOSE                                                                         \
+  8080
+################################################################################
