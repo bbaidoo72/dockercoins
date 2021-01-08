@@ -18,8 +18,11 @@ ARG                                                                            \
   dir=/app
 ARG                                                                            \
   src=webui.js
+################################################################################
 RUN                                                                            \
-  npm install express redis                                                    \
+  npm install express                                                          \
+  &&                                                                           \
+  npm install redis                                                            \
                                                                                ;
 WORKDIR                                                                        \
   ${dir}

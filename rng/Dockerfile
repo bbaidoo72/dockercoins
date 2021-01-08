@@ -18,11 +18,12 @@ ARG                                                                            \
   dir=/app
 ARG                                                                            \
   src=rng.py
-WORKDIR                                                                        \
-  ${dir}
+################################################################################
 RUN                                                                            \
   pip install Flask                                                            \
                                                                                ;
+WORKDIR                                                                        \
+  ${dir}
 COPY                                                                           \
   ${src}                                                                       \
   script
