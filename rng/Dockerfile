@@ -1,7 +1,37 @@
-FROM python:alpine
-WORKDIR /app
-RUN pip install Flask
-COPY rng.py .
-ENTRYPOINT ["python"]
-CMD ["rng.py"]
-EXPOSE 8080
+################################################################################
+#      Copyright (C) 2020        Sebastian Francisco Colomar Bauza             #
+#      SPDX-License-Identifier:  GPL-2.0-only                                  #
+################################################################################
+ARG                                                                            \
+  digest="@sha256:0267b3631f06804da6b1a66c3b399e6335ed394d04d8c714b7a4dfa866c35337"
+ARG                                                                            \
+  image="python"
+ARG                                                                            \
+  tag="3.9.1-alpine3.12"
+################################################################################
+FROM                                                                           \
+  ${image}:${tag}${digest}                                                     \
+  AS                                                                           \
+  production
+################################################################################
+ARG                                                                            \
+  dir=/app
+ARG                                                                            \
+  src=rng.py
+WORKDIR                                                                        \
+  ${dir}
+RUN                                                                            \
+  pip install Flask                                                            \
+                                                                               ;
+COPY                                                                           \
+  ${src}                                                                       \
+  python.py
+################################################################################
+ENTRYPOINT                                                                     \
+  ["python"]
+CMD                                                                            \
+  ["python.py"]
+################################################################################
+EXPOSE                                                                         \
+  8080
+################################################################################
