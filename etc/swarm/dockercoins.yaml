@@ -83,7 +83,7 @@ services:
       start_period: 30s
       test: wget -q --spider localhost:8080
       timeout: 1s
-    image: academiaonline/dockercoins:latest-rng
+    image: academiaonline/dockercoins:2.2-rng
     networks:
     - rng
   webui:
