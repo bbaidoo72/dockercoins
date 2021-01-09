@@ -211,7 +211,7 @@ spec:
             command:
             - sh
             - -c
-            - netstat -tn | grep ESTABLISHED | grep -q 8080 && netstat -tn | grep ESTABLISHED | grep -q 6379
+            - netstat -tn | grep ESTABLISHED | grep -q 8080
           failureThreshold: 3
           initialDelaySeconds: 30
           periodSeconds: 10
@@ -222,7 +222,7 @@ spec:
             command:
             - sh
             - -c
-            - netstat -tn | grep ESTABLISHED | grep -q 8080 && netstat -tn | grep ESTABLISHED | grep -q 6379
+            - netstat -tn | grep ESTABLISHED | grep -q 6379
           failureThreshold: 3
           initialDelaySeconds: 1
           periodSeconds: 10
@@ -330,7 +330,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   hostPath:
-    path: /redis
+    path: /tmp/redis
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
