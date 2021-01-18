@@ -38,7 +38,7 @@ jobs:                                                                          #
           redis:6.0.9-alpine3.12@sha256:aa31e6d2afc72d2222ed3953587197c324f615861771637a64053f9d99ba4b74 ;
                                                                                #
         for app in hasher rng                                                  ;
-          do
+          do                                                                   \
             docker run --network $app --name $app -d                           \
               $GITHUB_REPOSITORY:$release-testing-$app                         ;
           done                                                                 ;
@@ -108,7 +108,7 @@ jobs:                                                                          #
           && release=$( echo $branch | awk -F^v '{ print $2 }' )               \
           || release=latest                                                    ;
                                                                                #
-        compose=etc/$mode/$project.yaml                                        ;
+        compose=etc/$mode/manifests/$project.yaml                              ;
         sed -i /image:.*$project/s/$release/$release-testing/ $compose         ;
                                                                                #
         for app in hasher rng webui worker                                     ;
@@ -160,7 +160,7 @@ jobs:                                                                          #
           && release=$( echo $branch | awk -F^v '{ print $2 }' )               \
           || release=latest                                                    ;
                                                                                #
-        compose=etc/$mode/$project.yaml                                        ;
+        compose=etc/$mode/manifests/$project.yaml                              ;
         sed -i /image:.*$project/s/$release/$release-testing/ $compose         ;
                                                                                #
         for app in hasher rng webui worker                                     ;
@@ -168,7 +168,7 @@ jobs:                                                                          #
             docker build -t $GITHUB_REPOSITORY:$release-testing-$app $app/     ;
           done                                                                 ;
                                                                                #
-        uuid=$( md5sum $compose | cut -d' ' -f1 )                              ;
+        uuid=$( md5sum $compose | cut -d" " -f1 )                              ;
         git clone --single-branch -b v1.0                                      \
           https://github.com/academiaonline/kubernetes $uuid                   ;
         path=$uuid/bin/standalone/ubuntu18/install.sh                          ;
