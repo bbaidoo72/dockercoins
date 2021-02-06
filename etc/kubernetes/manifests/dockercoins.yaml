@@ -251,6 +251,12 @@ kind: NetworkPolicy
 metadata:
   name: hasher
 spec:
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 10.0.0.0/8
+    - ipBlock:
+        cidr: 192.168.0.0/16
   ingress:
   - from:
     - podSelector:
@@ -261,12 +267,21 @@ spec:
   podSelector:
     matchLabels:
       app: hasher
+  policyTypes:
+  - Ingress
+  - Egress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: redis
 spec:
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 10.0.0.0/8
+    - ipBlock:
+        cidr: 192.168.0.0/16
   ingress:
   - from:
     - podSelector:
@@ -280,15 +295,21 @@ spec:
   podSelector:
     matchLabels:
       app: redis
+  policyTypes:
+  - Ingress
+  - Egress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: rng
 spec:
-  podSelector:
-    matchLabels:
-      app: rng
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 10.0.0.0/8
+    - ipBlock:
+        cidr: 192.168.0.0/16
   ingress:
   - from:
     - podSelector:
@@ -296,29 +317,47 @@ spec:
           app: worker
     ports:
     - port: 8080
+  podSelector:
+    matchLabels:
+      app: rng
+  policyTypes:
+  - Ingress
+  - Egress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: webui
 spec:
-  podSelector:
-    matchLabels:
-      app: webui
+  egress:
+  - {}
   ingress:
   - ports:
     - port: 8080
+  podSelector:
+    matchLabels:
+      app: webui
+  policyTypes:
+  - Ingress
+  - Egress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: worker
 spec:
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 10.0.0.0/8
+    - ipBlock:
+        cidr: 192.168.0.0/16
   podSelector:
     matchLabels:
       app: worker
   policyTypes:
   - Ingress
+  - Egress
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -383,7 +422,9 @@ metadata:
 spec:
   ports:
   - port: 8080
+    #nodePort: 30000
   selector:
     app: webui
   type: ClusterIP
+  #type: NodePort
 ---
