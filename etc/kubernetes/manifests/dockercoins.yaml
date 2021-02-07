@@ -255,9 +255,8 @@ spec:
   - to:
     - ipBlock:
         cidr: 10.0.0.0/8
-    - podSelector:
-        matchLabels:
-          app: worker
+    - ipBlock:
+        cidr: 192.168.0.0/16
   ingress:
   - from:
     - podSelector:
@@ -281,12 +280,8 @@ spec:
   - to:
     - ipBlock:
         cidr: 10.0.0.0/8
-    - podSelector:
-        matchLabels:
-          app: webui
-    - podSelector:
-        matchLabels:
-          app: worker
+    - ipBlock:
+        cidr: 192.168.0.0/16
   ingress:
   - from:
     - podSelector:
@@ -313,9 +308,8 @@ spec:
   - to:
     - ipBlock:
         cidr: 10.0.0.0/8
-    - podSelector:
-        matchLabels:
-          app: worker
+    - ipBlock:
+        cidr: 192.168.0.0/16
   ingress:
   - from:
     - podSelector:
@@ -356,15 +350,8 @@ spec:
   - to:
     - ipBlock:
         cidr: 10.0.0.0/8
-    - podSelector:
-        matchLabels:
-          app: hasher
-    - podSelector:
-        matchLabels:
-          app: redis
-    - podSelector:
-        matchLabels:
-          app: rng
+    - ipBlock:
+        cidr: 192.168.0.0/16
   podSelector:
     matchLabels:
       app: worker
@@ -435,9 +422,8 @@ metadata:
 spec:
   ports:
   - port: 8080
-    #nodePort: 30000
+    nodePort: 30000
   selector:
     app: webui
-  type: ClusterIP
-  #type: NodePort
+  type: NodePort
 ---
