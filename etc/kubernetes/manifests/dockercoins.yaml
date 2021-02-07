@@ -244,19 +244,19 @@ spec:
   podSelector: {}
   policyTypes:
   - Ingress
-  - Egress
+#  - Egress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: hasher
 spec:
-  egress:
-  - to:
-    - ipBlock:
-        cidr: 10.0.0.0/8
-    - ipBlock:
-        cidr: 192.168.0.0/16
+#  egress:
+#  - to:
+#    - ipBlock:
+#        cidr: 10.0.0.0/8
+#    - ipBlock:
+#        cidr: 192.168.0.0/16
   ingress:
   - from:
     - podSelector:
@@ -269,19 +269,19 @@ spec:
       app: hasher
   policyTypes:
   - Ingress
-  - Egress
+#  - Egress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: redis
 spec:
-  egress:
-  - to:
-    - ipBlock:
-        cidr: 10.0.0.0/8
-    - ipBlock:
-        cidr: 192.168.0.0/16
+#  egress:
+#  - to:
+#    - ipBlock:
+#        cidr: 10.0.0.0/8
+#    - ipBlock:
+#        cidr: 192.168.0.0/16
   ingress:
   - from:
     - podSelector:
@@ -297,19 +297,19 @@ spec:
       app: redis
   policyTypes:
   - Ingress
-  - Egress
+#  - Egress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: rng
 spec:
-  egress:
-  - to:
-    - ipBlock:
-        cidr: 10.0.0.0/8
-    - ipBlock:
-        cidr: 192.168.0.0/16
+#  egress:
+#  - to:
+#    - ipBlock:
+#        cidr: 10.0.0.0/8
+#    - ipBlock:
+#        cidr: 192.168.0.0/16
   ingress:
   - from:
     - podSelector:
@@ -322,15 +322,15 @@ spec:
       app: rng
   policyTypes:
   - Ingress
-  - Egress
+#  - Egress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: webui
 spec:
-  egress:
-  - {}
+#  egress:
+#  - {}
   ingress:
   - ports:
     - port: 8080
@@ -339,25 +339,25 @@ spec:
       app: webui
   policyTypes:
   - Ingress
-  - Egress
+#  - Egress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: worker
 spec:
-  egress:
-  - to:
-    - ipBlock:
-        cidr: 10.0.0.0/8
-    - ipBlock:
-        cidr: 192.168.0.0/16
+#  egress:
+#  - to:
+#    - ipBlock:
+#        cidr: 10.0.0.0/8
+#    - ipBlock:
+#        cidr: 192.168.0.0/16
   podSelector:
     matchLabels:
       app: worker
   policyTypes:
   - Ingress
-  - Egress
+#  - Egress
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -422,8 +422,8 @@ metadata:
 spec:
   ports:
   - port: 8080
-    nodePort: 30000
+#    nodePort: 30000
   selector:
     app: webui
-  type: NodePort
+#  type: NodePort
 ---
