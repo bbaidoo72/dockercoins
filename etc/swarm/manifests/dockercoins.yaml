@@ -32,7 +32,7 @@ services:
       start_period: 30s
       test: wget -q --spider localhost:8080
       timeout: 1s
-    image: academiaonline/dockercoins:latest-hasher
+    image: academiaonline/dockercoins:2.4-hasher
     networks:
     - hasher
   redis:
@@ -83,7 +83,7 @@ services:
       start_period: 30s
       test: wget -q --spider localhost:8080
       timeout: 1s
-    image: academiaonline/dockercoins:latest-rng
+    image: academiaonline/dockercoins:2.4-rng
     networks:
     - rng
   webui:
@@ -108,7 +108,7 @@ services:
       start_period: 30s
       test: curl -f localhost:8080
       timeout: 1s
-    image: academiaonline/dockercoins:latest-webui
+    image: academiaonline/dockercoins:2.4-webui
     networks:
     - redis
     ports:
@@ -133,7 +133,7 @@ services:
       start_period: 30s
       test: netstat -tn | grep ESTABLISHED | grep -q 8080 && netstat -tn | grep ESTABLISHED | grep -q 6379
       timeout: 1s
-    image: academiaonline/dockercoins:latest-worker
+    image: academiaonline/dockercoins:2.4-worker
     networks:
     - hasher
     - redis
