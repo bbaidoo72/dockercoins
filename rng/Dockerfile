@@ -3,11 +3,11 @@
 #      SPDX-License-Identifier:  GPL-2.0-only                                  #
 ################################################################################
 ARG                                                                            \
-  digest="@sha256:0267b3631f06804da6b1a66c3b399e6335ed394d04d8c714b7a4dfa866c35337"
+  digest="@sha256:5beb4823c653c428379bc8b811ef233b7171806e8b10bb6879e7af1ed5bb4093"
 ARG                                                                            \
   image="python"
 ARG                                                                            \
-  tag="3.9.1-alpine3.12"
+  tag="3.9.1-alpine3.13"
 ################################################################################
 FROM                                                                           \
   ${image}:${tag}${digest}                                                     \
