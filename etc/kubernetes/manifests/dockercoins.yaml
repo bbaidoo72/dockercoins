@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: rng
-        image: academiaonline/dockercoins:latest-rng
+        image: academiaonline/dockercoins:2.4-rng
         imagePullPolicy: Always
         livenessProbe:
           tcpSocket:
@@ -63,7 +63,7 @@ spec:
     spec:
       containers:
       - name: hasher
-        image: academiaonline/dockercoins:latest-hasher
+        image: academiaonline/dockercoins:2.4-hasher
         imagePullPolicy: Always
         livenessProbe:
           tcpSocket:
@@ -159,7 +159,7 @@ spec:
     spec:
       containers:
       - name: webui
-        image: academiaonline/dockercoins:latest-webui
+        image: academiaonline/dockercoins:2.4-webui
         imagePullPolicy: Always
         livenessProbe:
           tcpSocket:
@@ -204,7 +204,7 @@ spec:
     spec:
       containers:
       - name: worker
-        image: academiaonline/dockercoins:latest-worker
+        image: academiaonline/dockercoins:2.4-worker
         imagePullPolicy: Always
         livenessProbe:
           exec:
