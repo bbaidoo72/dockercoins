@@ -61,7 +61,7 @@ services:
     networks:
     - redis
     volumes:
-    - redis:/data
+    - /tmp/redis:/data
   rng:
     deploy:
       mode: global
@@ -139,5 +139,3 @@ services:
     - redis
     - rng
 version: '3.8'
-volumes:
-  redis:
