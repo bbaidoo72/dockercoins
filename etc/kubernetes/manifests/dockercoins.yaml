@@ -389,6 +389,7 @@ metadata:
 spec:
   ports:
   - port: 8080
+    targetPort: 8080
   selector:
     app: hasher
   type: ClusterIP
@@ -400,6 +401,7 @@ metadata:
 spec:
   ports:
   - port: 6379
+    targetPort: 6379
   selector:
     app: redis
   type: ClusterIP
@@ -411,6 +413,7 @@ metadata:
 spec:
   ports:
   - port: 8080
+    targetPort: 8080
   selector:
     app: rng
   type: ClusterIP
@@ -423,6 +426,7 @@ spec:
   ports:
   - port: 8080
 #    nodePort: 30000
+    targetPort: 8080
   selector:
     app: webui
 #  type: NodePort
