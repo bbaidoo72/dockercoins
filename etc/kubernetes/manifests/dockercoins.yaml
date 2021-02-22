@@ -211,7 +211,7 @@ spec:
             command:
             - sh
             - -c
-            - netstat -tn | grep ESTABLISHED | grep -q 8080
+            - netstat -tn | grep ESTABLISHED | grep -q 6379
           failureThreshold: 3
           initialDelaySeconds: 30
           periodSeconds: 10
