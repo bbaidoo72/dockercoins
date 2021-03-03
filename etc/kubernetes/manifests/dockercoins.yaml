@@ -206,28 +206,6 @@ spec:
       - name: worker
         image: academiaonline/dockercoins:latest-worker
         imagePullPolicy: Always
-        livenessProbe:
-          exec:
-            command:
-            - sh
-            - -c
-            - netstat -tn | grep ESTABLISHED | grep -q 6379
-          failureThreshold: 3
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
-        readinessProbe:
-          exec:
-            command:
-            - sh
-            - -c
-            - netstat -tn | grep ESTABLISHED | grep -q 6379
-          failureThreshold: 3
-          initialDelaySeconds: 1
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
         resources:
           limits:
             cpu: 100m
